@@ -767,7 +767,14 @@ pub fn mint<S: Storage, A: Api, Q: Querier>(
             background_color: None,
             animation_url: None,
             youtube_url: None,
-            media: None,
+            media: media: Some(vec![
+                MediaFile {
+                    file_type: Some("image".to_string()),
+                    extension: Some("png".to_string()),
+                    url: Some(token_data.img_url),
+                    authentication: None
+                }
+            ]),
             protected_attributes: None
         })
     });
@@ -788,11 +795,8 @@ pub fn mint<S: Storage, A: Api, Q: Querier>(
                 MediaFile {
                     file_type: Some("image".to_string()),
                     extension: Some("png".to_string()),
-                    url: String::from("INSERT_ENCRYPTED_LINK_HERE"),
-                    authentication: Some(Authentication {
-                        key: None,
-                        user: None,
-                    })
+                    url: Some(token_data.priv_img_url),
+                    authentication: None
                 }
             ]),
             protected_attributes: None
