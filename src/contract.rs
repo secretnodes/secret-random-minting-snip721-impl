@@ -760,21 +760,14 @@ pub fn mint<S: Storage, A: Api, Q: Querier>(
         extension: Some(Extension {
             image: None,
             image_data: None,
-            external_url: None,
+            external_url: Some(token_data.img_url.clone()),
             description: None,
             name: None,
             attributes: None,
             background_color: None,
             animation_url: None,
             youtube_url: None,
-            media: media: Some(vec![
-                MediaFile {
-                    file_type: Some("image".to_string()),
-                    extension: Some("png".to_string()),
-                    url: Some(token_data.img_url),
-                    authentication: None
-                }
-            ]),
+            media: None,
             protected_attributes: None
         })
     });
@@ -784,21 +777,14 @@ pub fn mint<S: Storage, A: Api, Q: Querier>(
         extension: Some(Extension {
             image: None,
             image_data: None,
-            external_url: None,
+            external_url: Some(token_data.priv_img_url.clone()),
             description: None,
             name: None,
             attributes: None,
             background_color: None,
             animation_url: None,
             youtube_url: None,
-            media: Some(vec![
-                MediaFile {
-                    file_type: Some("image".to_string()),
-                    extension: Some("png".to_string()),
-                    url: Some(token_data.priv_img_url),
-                    authentication: None
-                }
-            ]),
+            media: None,
             protected_attributes: None
         })
     });
