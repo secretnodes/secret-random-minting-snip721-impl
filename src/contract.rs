@@ -53,7 +53,7 @@ use secret_toolkit::snip20::handle::{register_receive_msg,transfer_msg};
 
 
 /// Mint cost
-pub const MINT_COST: u128 = 10000000; //WRITE IN LOWEST DENOMINATION OF YOUR PREFERRED SNIP
+pub const MINT_COST: u128 = 55000000; //WRITE IN LOWEST DENOMINATION OF YOUR PREFERRED SNIP
 
 
 ////////////////////////////////////// Init ///////////////////////////////////////
