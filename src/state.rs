@@ -107,6 +107,8 @@ pub struct Config {
     pub minter_may_update_metadata: bool,
     /// is the token's owner permitted to update the token's metadata
     pub owner_may_update_metadata: bool,
+    /// is the contract admin permitted to update token metadata
+    pub admin_may_update_metadata: bool,
     /// is burn enabled
     pub burn_is_enabled: bool,
 }

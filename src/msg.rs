@@ -77,6 +77,8 @@ pub struct InitConfig {
     /// indicates whether the owner of a token is permitted to update a token's metadata
     /// default: False
     pub owner_may_update_metadata: Option<bool>,
+    /// indicates whether the contract admin is permitted to update token metadata
+    pub admin_may_update_metadata: Option<bool>, 
     /// Indicates whether burn functionality should be enabled
     /// default: False
     pub enable_burn: Option<bool>,
@@ -91,6 +93,7 @@ impl Default for InitConfig {
             unwrapped_metadata_is_private: Some(false),
             minter_may_update_metadata: Some(false),
             owner_may_update_metadata: Some(false),
+            admin_may_update_metadata: Some(false),
             enable_burn: Some(false),
         }
     }

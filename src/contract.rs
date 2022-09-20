@@ -98,6 +98,7 @@ pub fn init<S: Storage, A: Api, Q: Querier>(
         unwrap_to_private: init_config.unwrapped_metadata_is_private.unwrap_or(false),
         minter_may_update_metadata: init_config.minter_may_update_metadata.unwrap_or(false),
         owner_may_update_metadata: init_config.owner_may_update_metadata.unwrap_or(false),
+        admin_may_update_metadata: init_config.admin_may_update_metadata.unwrap_or(false),
         burn_is_enabled: init_config.enable_burn.unwrap_or(false),
     };
 
@@ -806,7 +807,11 @@ pub fn set_metadata<S: Storage, A: Api, Q: Querier>(
     };
     let (token, idx) = get_token(&deps.storage, token_id, opt_err)?;
     let sender_raw = deps.api.canonical_address(&env.message.sender)?;
-    if !(token.owner == sender_raw && config.owner_may_update_metadata) {
+    if config.admin == sender_raw {
+        if !(config.admin_may_update_metadata) {
+            return Err(StdError::generic_err(custom_err));
+        }
+    } else if !((token.owner == sender_raw && config.owner_may_update_metadata) || (config.admin == sender_raw)) {
         let minters: Vec<CanonicalAddr> =
             may_load(&deps.storage, MINTERS_KEY)?.unwrap_or_else(Vec::new);
         if !(minters.contains(&sender_raw) && config.minter_may_update_metadata) {
