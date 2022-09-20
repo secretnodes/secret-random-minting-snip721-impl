@@ -56,7 +56,7 @@ impl StoredMintRunInfo {
     pub fn to_human<A: Api>(
         &self,
         api: &A,
-        contract_creator: &CanonicalAddr,
+        contract_creator: &HumanAddr,
     ) -> StdResult<MintRunInfo> {
         Ok(MintRunInfo {
             collection_creator: Some(api.human_address(contract_creator)?),
