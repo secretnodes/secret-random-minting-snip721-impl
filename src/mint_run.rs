@@ -56,10 +56,10 @@ impl StoredMintRunInfo {
     pub fn to_human<A: Api>(
         &self,
         api: &A,
-        contract_creator: &HumanAddr,
+        contract_creator: HumanAddr,
     ) -> StdResult<MintRunInfo> {
         Ok(MintRunInfo {
-            collection_creator: Some(api.human_address(contract_creator)?),
+            collection_creator: Some(contract_creator),
             token_creator: Some(api.human_address(&self.token_creator)?),
             time_of_minting: Some(self.time_of_minting),
             mint_run: self.mint_run,

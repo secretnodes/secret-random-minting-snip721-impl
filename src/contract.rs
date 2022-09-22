@@ -392,7 +392,7 @@ pub fn handle<S: Storage, A: Api, Q: Querier>(
             env,
             &mut config,
             ContractStatus::Normal.to_u8(),
-            &mut burns,
+            burns,
         ),
         HandleMsg::CreateViewingKey { entropy, .. } => create_key(
             deps,
@@ -699,9 +699,9 @@ pub fn mint<S: Storage, A: Api, Q: Querier>(
     let public_metadata = Some(Metadata {
         token_uri: None,
         extension: Some(Extension {
-            image: None,
+            image: Some(token_data.img_url.clone()),
             image_data: None,
-            external_url: Some(token_data.img_url.clone()),
+            external_url: None,
             description: None,
             name: Some(token_data.id.clone()),
             attributes: token_data.attributes.clone(),
@@ -710,15 +710,16 @@ pub fn mint<S: Storage, A: Api, Q: Querier>(
             youtube_url: None,
             media: None,
             protected_attributes: None,
+            token_subtype: None,
         }),
     });
 
     let private_metadata = Some(Metadata {
         token_uri: None,
         extension: Some(Extension {
-            image: None,
+            image: Some(token_data.img_url.clone()),
             image_data: None,
-            external_url: Some(token_data.priv_img_url.clone()),
+            external_url: None,
             description: None,
             name: None,
             attributes: None,
@@ -735,6 +736,7 @@ pub fn mint<S: Storage, A: Api, Q: Querier>(
                 }),
             }]),
             protected_attributes: None,
+            token_subtype: None,
         }),
     });
 
@@ -761,7 +763,7 @@ pub fn mint<S: Storage, A: Api, Q: Querier>(
         private_metadata,
         serial_number,
         royalty_info,
-        transferable: true,
+        transferable: Some(true),
         memo,
     }];
 
@@ -1155,6 +1157,7 @@ pub fn set_global_approval<S: Storage, A: Api, Q: Querier>(
                 owner: sender_raw.clone(),
                 permissions: Vec::new(),
                 unwrapped: false,
+                transferable: true
             },
             0,
         )
@@ -1245,6 +1248,7 @@ pub fn set_whitelisted_approval<S: Storage, A: Api, Q: Querier>(
                 owner: sender_raw.clone(),
                 permissions: Vec::new(),
                 unwrapped: false,
+                transferable: true
             },
             0,
         )
@@ -1304,7 +1308,7 @@ pub fn batch_burn_nft<S: Storage, A: Api, Q: Querier>(
     env: Env,
     config: &mut Config,
     priority: u8,
-    burns: &mut Vec<Burn>,
+    burns: Vec<Burn>,
 ) -> HandleResult {
     check_status(config.status, priority)?;
     if !config.burn_is_enabled {
@@ -1353,7 +1357,7 @@ fn burn_nft<S: Storage, A: Api, Q: Querier>(
         token_ids: vec![token_id],
         memo,
     }];
-    burn_list(deps, &env.block, config, &sender_raw, &mut burns)?;
+    burn_list(deps, &env.block, config, &sender_raw, burns)?;
     let res = HandleResponse {
         messages: vec![],
         log: vec![],
@@ -1892,7 +1896,7 @@ pub fn query<S: Storage, A: Api, Q: Querier>(deps: &Extern<S, A, Q>, msg: QueryM
             token_id,
             viewer,
             include_expired,
-        } => query_nft_dossier(deps, &token_id, viewer, include_expired, None),
+        } => query_nft_dossier(deps, token_id, viewer, include_expired, None),
         QueryMsg::BatchNftDossier {
             token_ids,
             viewer,

@@ -852,7 +852,7 @@ pub struct BatchNftDossierElement {
     pub private_metadata_is_public_expiration: Option<Expiration>,
     pub token_approvals: Option<Vec<Snip721Approval>>,
     pub inventory_approvals: Option<Vec<Snip721Approval>>,
-}NftDossier
+}
 
 #[derive(Serialize, Deserialize, JsonSchema, Debug)]
 #[serde(rename_all = "snake_case")]
