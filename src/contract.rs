@@ -387,7 +387,7 @@ pub fn handle<S: Storage, A: Api, Q: Querier>(
             token_id,
             memo,
         ),
-        HandleMsg::BatchBurnNft { mut burns, .. } => batch_burn_nft(
+        HandleMsg::BatchBurnNft { burns, .. } => batch_burn_nft(
             deps,
             env,
             &mut config,
@@ -1353,7 +1353,7 @@ fn burn_nft<S: Storage, A: Api, Q: Querier>(
         ));
     }
     let sender_raw = deps.api.canonical_address(&env.message.sender)?;
-    let mut burns = vec![Burn {
+    let burns = vec![Burn {
         token_ids: vec![token_id],
         memo,
     }];
